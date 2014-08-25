@@ -1,0 +1,28 @@
+# $Header: /usr/build/atac/atac/tutorial/RCS/makefile.in,v 1.5 1998/08/23 23:00:36 tom Exp $
+
+SHELL		= /bin/sh
+
+srcdir          = @srcdir@
+VPATH           = @srcdir@
+
+CC		= @CC@
+CPP		= @CPP@
+CPPFLAGS	= -I$(srcdir)
+CFLAGS		= @CFLAGS@ @EXTRA_CFLAGS@
+
+wordcount:	wc.o main.o
+		$(CC) -o wordcount wc.o main.o
+
+.SUFFIXES : .i
+
+.c.o:
+@RULE_CC@
+	@ECHO_CC@$(CC) $(CPPFLAGS) $(CFLAGS) -c $(srcdir)/$*.c
+
+.c.i:
+@RULE_CC@
+	@ECHO_CC@$(CPP) -C $(CPPFLAGS) $(srcdir)/$*.c >$@
+
+clean:		; rm -f wc.o main.o wordcount
+
+cleanup:	clean

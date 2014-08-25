@@ -1,0 +1,127 @@
+#****************************************************************
+#Copyright (c) 1993 Bell Communications Research, Inc. (Bellcore)
+#
+#Permission to use, copy, modify, and distribute this material
+#for any purpose and without fee is hereby granted, provided
+#that the above copyright notice and this permission notice
+#appear in all copies, and that the name of Bellcore not be
+#used in advertising or publicity pertaining to this
+#material without the specific, prior written permission
+#of an authorized representative of Bellcore.  BELLCORE
+#MAKES NO REPRESENTATIONS ABOUT THE ACCURACY OR SUITABILITY
+#OF THIS MATERIAL FOR ANY PURPOSE.  IT IS PROVIDED "AS IS",
+#WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES.
+#****************************************************************
+#
+# $Id: makefile.in,v 3.14 2013/12/08 16:55:55 tom Exp $
+#
+# @Log: makefile.in,v @
+# Revision 3.13  1998/08/23 19:47:33  tom
+# remove trial/error build of hili (done in configure-script)
+#
+# Revision 3.12  1998/08/23 18:46:49  tom
+# mods to support configure --srcdir
+#
+# Revision 3.11  1997/11/04 01:35:42  tom
+# add EXTRA_CFLAGS
+#
+# Revision 3.10  1997/04/25 13:42:31  tom
+# CC-substitution
+#
+# Revision 3.9  1996/12/02 00:29:06  tom
+# mods for autoconf
+#
+# Revision 3.8  1996/01/11 17:47:36  tom
+# separate LINK from CC, to run Purify
+#
+# Revision 3.7  94/04/04  16:12:40  jrh
+# Release Copyright added
+#
+# Revision 3.6  93/08/27  14:28:10  ewk
+# Remove hili before makeing it, in case a working version already exists.
+#
+# Revision 3.5  93/08/27  14:19:16  ewk
+# Check if hili built with TERMCAP works, otherwise use TERMINFO (for AIX).
+#
+# Revision 3.4  93/08/11  10:02:34  saul
+# new predefs format
+#
+# Revision 3.3  93/07/13  11:08:48  ewk
+# Add atacLD information.
+#
+# Revision 3.2  93/05/05  11:10:00  ewk
+# Removed the "print" target.
+#
+# Revision 3.1  93/04/29  17:19:39  ewk
+# Changed to reflect the name changes from atacLib
+# to ataclib and atacMin to atacmin.
+#
+# Revision 3.0  92/11/06  07:46:20  saul
+# propagate to version 3.0
+#
+# Revision 2.3  92/11/03  08:31:58  saul
+# add dependencies on portable.h
+#
+# Revision 2.2  92/10/30  09:46:35  saul
+# add CFLAGS=-I..
+#
+# Revision 2.1  92/10/28  14:02:04  saul
+# new installation procedures
+#
+#-----------------------------------------------end of log
+#
+# Makefile for ATAC components in tools directory.
+#
+SHELL		= /bin/sh
+
+srcdir          = @srcdir@
+VPATH           = @srcdir@
+
+CC		= @CC@
+CPP		= @CPP@
+LINK		= $(CC)
+INCLUDES	= ..
+CPPFLAGS	= @CPPFLAGS@ -I. -I$(INCLUDES) -I$(srcdir)/.. -I$(srcdir) -DHAVE_CONFIG_H
+CFLAGS		= @CFLAGS@ @EXTRA_CFLAGS@
+
+SRC=atac atacCC atacLD atacmin atac_rt.c hili.c min.c predefs.list Makefile
+
+system:		atac atacCC atacLD atacmin atac_rt.o hili minimize predefs.c
+
+.SUFFIXES : .i
+
+.c.o:
+	@RULE_CC@
+	@ECHO_CC@$(CC) $(CPPFLAGS) $(CFLAGS) -c $(srcdir)/$*.c
+
+.c.i:
+	@RULE_CC@
+	@ECHO_CC@$(CPP) -C $(CPPFLAGS) $(srcdir)/$*.c >$@
+
+clean:
+		rm -f *.o hili minimize predefs.c
+
+atac_rt.o:	atac_rt.c $(INCLUDES)/portable.h
+
+hili.o:		hili.c $(INCLUDES)/portable.h
+
+hili:		hili.o
+		@ECHO_LD@$(LINK) $(CFLAGS) hili.o @TERMLIBS@ -o $@
+
+min.o:		$(INCLUDES)/portable.h
+
+minimize:	min.o
+		@ECHO_LD@$(LINK) $(CFLAGS) min.o -o $@
+
+predefs.c:	$(srcdir)/predefs.list
+		@for n in `grep -v '^#' $(srcdir)/predefs.list`;	\
+		do							\
+		    N=`echo $$n | tr '[a-z]' '[A-Z]'`;			\
+		    for name in $$n _$$n __$$n __$${n}__ $$N _$$N __$$N __$${N}__;\
+		    do							\
+			echo "#ifdef $$name";				\
+			echo "XxX$$name $$name";			\
+			echo "#endif";					\
+		    done						\
+		done >predefs.c
+		@echo predefs.c created

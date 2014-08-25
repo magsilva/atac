@@ -1,0 +1,359 @@
+#!/bin/sh
+#****************************************************************
+#Copyright (c) 1993 Bell Communications Research, Inc. (Bellcore)
+#
+#Permission to use, copy, modify, and distribute this material
+#for any purpose and without fee is hereby granted, provided
+#that the above copyright notice and this permission notice
+#appear in all copies, and that the name of Bellcore not be
+#used in advertising or publicity pertaining to this
+#material without the specific, prior written permission
+#of an authorized representative of Bellcore.  BELLCORE
+#MAKES NO REPRESENTATIONS ABOUT THE ACCURACY OR SUITABILITY
+#OF THIS MATERIAL FOR ANY PURPOSE.  IT IS PROVIDED "AS IS",
+#WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES.
+#****************************************************************
+#
+# $Header: /usr/build/atac/atac/tools/RCS/atacCC,v 3.16 2005/08/14 16:45:54 tom Exp $
+#
+#$Log: atacCC,v $
+#Revision 3.16  2005/08/14 16:45:54  tom
+#make this work with gcc 2.95.3 (ignore __extension__ and __restrict keywords)
+#
+#Revision 3.15  2005/08/14 16:19:51  tom
+#improve computation of $GCC_BASE and $GCC_VERS using gcc options.
+#use $TMPDIR to allow overriding temp-file location.
+#
+#Revision 3.14  1995/12/31 01:40:59  tom
+#mods to support Linux aout vs ELF
+#
+# Revision 3.13  94/08/08  11:54:33  saul
+# define __const, etc. for GNU include files (linux).
+# 
+# Revision 3.12  94/04/21  09:33:56  saul
+# Move #!/bin/sh directive back to first line
+# 
+# Revision 3.11  94/04/04  15:11:51  saul
+# Remove contact info
+# 
+# Revision 3.10  94/04/04  10:53:04  jrh
+# Add Release Copyright
+# 
+# Revision 3.9  93/08/09  12:48:13  saul
+# loguse
+# 
+# Revision 3.8  93/07/13  09:27:59  ewk
+# Correct that version 3.7 undoes the fix in 3.6:
+# set shiftdummy -o "$arg" $@ ==> set shiftdummy -o "$arg" "$@"
+# 
+# Revision 3.7  93/07/12  15:42:21  ewk
+# Applied modifications for MARCH.
+# 
+# Revision 3.6  93/06/30  15:32:59  saul
+# Fix bug causing file name substitution in test names with wild cards.
+# 
+# Revision 3.5  93/04/29  17:20:36  ewk
+# Changed to reflect the name changes from atacLib
+# to ataclib and atacMin to atacmin.
+# 
+# Revision 3.4  93/03/30  14:32:16  saul
+# Change comments to point to base as point of contact.
+# 
+# Revision 3.3  93/02/24  07:36:21  saul
+# Whoops, broke getc protection
+# 
+# Revision 3.2  93/02/23  13:14:21  saul
+# traditional vs ansi cpp configurations
+# 
+# Revision 3.1  92/12/03  09:01:00  saul
+# Fix exit status.
+# 
+# Revision 3.0  92/11/06  07:46:25  saul
+# propagate to version 3.0
+# 
+# Revision 2.12  92/11/06  07:12:13  saul
+# atacCC -E option to print predefs
+# 
+# Revision 2.11  92/10/28  09:16:29  saul
+# use atacLib instead of INSTALLDIR
+# ATAC_CC to override CC and new predef procedures
+# -atac_noexpand option with -E
+# 
+# Revision 2.10  92/09/22  15:36:42  saul
+# add option for user protected macros (-D%name)
+# 
+# Revision 2.9  92/09/08  13:50:23  saul
+# remove absolute path names.
+# 
+# Revision 2.8  92/09/08  10:34:52  saul
+# Version option, override putc/getc, cleanup cpp options
+# 
+# Revision 2.7  92/04/29  08:48:18  saul
+# remove ksh dependency
+# 
+# Revision 2.6  92/04/06  14:42:39  saul
+# Get rid of -DATAC, etc. predefines
+# 
+# Revision 2.5  92/04/06  14:29:10  saul
+# get rid of -traditional on cpp
+# 
+# Revision 2.4  92/04/06  14:14:25  saul
+# Fix -v option
+# 
+# Revision 2.3  92/03/17  15:34:46  saul
+# copyright
+# 
+# Revision 2.2  91/06/19  14:00:09  saul
+# add -v option (version)
+# 
+# Revision 2.1  91/06/19  13:56:25  saul
+# Propagte to version 2.0
+# 
+# Revision 1.1  91/06/12  16:33:02  saul
+# Aug 1990 baseline
+# 
+#-----------------------------------------------end of log
+# 
+LIB=`ataclib`
+$LIB/loguse "$LIB" "$0 $*" >/dev/null 2>/dev/null
+PGM=atacCC
+CINST="$LIB/atac_i"
+CPP="$LIB/atac_cpp"
+CPPARG='-C'
+
+CPPARG="$CPPARG -D__extension__= "
+CPPARG="$CPPARG -D__restrict= "
+CPPARG="$CPPARG -D__const=const -D__const__=const"
+CPPARG="$CPPARG -D__volatile=volatile -D__volatile=volatile"
+CPPARG="$CPPARG -D__signed=signed -D__signed=signed"
+
+CPP_PROTECT="-Dgetc=fgetc -Dputc=fputc -%getc -%putc"
+VERSION="$LIB/Version"
+CC=$ATAC_CC
+if [ "$CC" = "" -o "$CC" = "$0" ]
+then
+	CC='cc'
+fi
+###############################################################################
+# GCC 2.7.0 on Linux can build ELF or a.out binaries, based on the use of the
+# '-b' option.  Depending on which is set, we'll append a different set of
+# include-options and definitions to CPPARG.
+if ( eval "$CC -v" 2>&1 |fgrep gcc >/dev/null )
+then
+  GCC_BASE=`eval "$CC -dumpmachine"`
+  GCC_VERS=`eval "$CC -dumpversion"`
+  GCC_TREE=`eval "$CC -v 2>&1 |fgrep 'Reading specs' | sed -e 's,^[^/]*,,' -e 's,/[^/]*$,,'"`
+else
+  GCC_BASE=""
+  GCC_VERS=""
+fi
+BASE_ARG=""
+###############################################################################
+CCARG=''
+SOURCE=''
+LINK='yes'
+AOUT='a.out'
+CPP_ONLY='no'
+# Comment next line to save intermediate .c files.
+TMP="${TMPDIR-/tmp}/atacCC$$"
+RC=1
+trap 'rm -fr ${TMP}; exit $RC' 0 1 2 3
+ALL="$*"
+while [ $# -ne 0 ]
+do
+	case "$1" in
+	-v)	cat $VERSION
+		CCARG="$CCARG $1"
+		if [ $# -eq 1 ]
+		then
+			RC=0
+			exit 0
+		fi
+		;;
+	-M)	CPP_ONLY='yes'
+		CPPARG="$CPPARG $1"
+		;;
+	-E)	CPP_ONLY='yes'
+		;;
+	-I | -U)
+		if [ $# -ge 2 ]
+		then
+			CPPARG="$CPPARG $1 $2"
+			shift
+		fi
+		;;
+	-D)
+		if [ $# -ge 2 ]
+		then
+			case "$2" in
+			%)	CPP_PROTECT=''
+				;;
+			%*)	CPP_PROTECT="$CPP_PROTECT -$2"
+				;;
+			*)	CPPARG="$CPPARG $1 $2"
+				;;
+			esac
+			shift
+		fi
+		;;
+	-D%)	CPP_PROTECT=''
+		;;
+	-D%*)	arg=`expr "$1" : '-D\(.*\)'`
+		CPP_PROTECT="$CPP_PROTECT -$arg"
+		;;
+	-I* | -D* | -U*)
+		CPPARG="$CPPARG $1"
+		;;
+	-O*)	#echo "$PGM: $1 ignored" >&2
+		;;
+	-c)	CCARG="$CCARG $1"
+		LINK='no'
+		;;
+	-o)
+		if [ $# -eq 1 ]
+		then
+			echo -n $PGM:
+			$CC $ALL
+			exit 1
+		fi
+		AOUT=`basename "$2"`
+		CCARG="$CCARG $1 $2"
+		shift
+		;;
+	-o*)
+		arg=`expr "$1" : '-o\(.*\)'`
+		shift
+		set shiftdummy -o "$arg" "$@"
+		;;
+	-b)
+		if [ "$GCC_VERS" != ""  ]
+		then
+			if [ $# -eq 1 ]
+			then
+				echo -n $PGM:
+				$CC $ALL
+				exit 1
+			fi
+			GCC_BASE="$2"
+			BASE_ARG="-b $2"
+			shift
+		else
+			CCARG="$CCARG $1"
+		fi
+		;;
+	-b*)
+		if [ "$GCC_VERS" != ""  ]
+		then
+			arg=`expr "$1" : '-b\(.*\)'`
+			shift
+			set shiftdummy -b "$arg" "$@"
+		else
+			CCARG="$CCARG $1"
+		fi
+		;;
+	*.c)	SOURCE="$SOURCE $1"
+		CCARG="$CCARG ${TMP}/`basename $1`"
+		;;
+	*)	CCARG="$CCARG $1"
+		;;
+	esac
+	shift
+done
+####
+#### begin: Mods to support Linux aout vs ELF
+####
+if [ "$GCC_VERS" != "" ]
+then
+	if [ -d /usr/$GCC_BASE/include ]
+	then
+		CPPARG="$CPPARG -I/usr/local/include -I/usr/$GCC_BASE/include -I$GCC_TREE/include"
+	fi
+	if ( echo $GCC_BASE | fgrep aout >/dev/null )
+	then
+		if [ "$ATAC_RT" = "" ]
+		then
+			ATAC_RT="/usr/$GCC_BASE/lib/atac_rt.o"
+		fi
+	else
+		CPPARG="$CPPARG -D__ELF__"
+	fi
+fi
+####
+#### end: Mods to support Linux aout vs ELF
+####
+CPPARG="$CPPARG $CPP_PROTECT"
+if
+	mkdir $TMP
+	[ $? -ne 0 ]
+then
+	echo "$PGM: cannot create temp dir ${TMP}" >&2
+	exit 1
+fi
+if [ "$ATAC_CC" != "" ]
+then
+	echo '#define m(a) "a"' >$TMP/cpp_ansi.c
+	echo "main(){return *(m(x))=='x';}" >>$TMP/cpp_ansi.c
+	$CC -o $TMP/cpp_ansi $TMP/cpp_ansi.c
+	if $TMP/cpp_ansi
+	then
+		CPPARG="$CPPARG -trigraphs"
+	else
+		CPPARG="$CPPARG -traditional"
+	fi
+	$CC -E $LIB/predefs.c | sed -n 's/^XxX//p' >$TMP/predefs
+	PREDEFS="$TMP/predefs"
+else
+	if [ -r $LIB/cpp_ansi ]
+	then
+		CPPARG="$CPPARG -trigraphs"
+	else
+		CPPARG="$CPPARG -traditional"
+	fi
+	PREDEFS="$LIB/predefs"
+fi
+CPPARG="$CPPARG -atac_predefs $PREDEFS"
+if [ "$CPP_ONLY" = "yes" ]
+then
+	if [ "$SOURCE" = "" ]
+	then
+		cat $PREDEFS
+		RC=0
+		exit 0
+	fi
+	for i in $SOURCE
+	do
+		$CPP $CPPARG -atac_noexpand $i
+	done
+	RC=$?
+	exit $?;
+fi
+if [ "$LINK" = "yes" ]
+then
+	if [ "$ATAC_RT" = "" ]
+	then
+		ATAC_RT="$LIB/atac_rt.o"
+	fi
+	echo 'char *aTaC_trace = "'$AOUT'.trace";' >$TMP/aTaC_trace.c
+	(cd $TMP; $CC $BASE_ARG -c aTaC_trace.c) >/dev/null 2>/dev/null
+	if [ ! -s $TMP/aTaC_trace.o ]
+	then
+		echo 'char *aTaC_trace = "a.out.trace";' >$TMP/aTaC_trace.c
+		(cd $TMP; $CC $BASE_ARG -c aTaC_trace.c) >/dev/null 2>/dev/null
+	fi
+	CCARG="$CCARG $ATAC_RT $TMP/aTaC_trace.o"
+fi
+rm -f core
+for i in $SOURCE
+do
+	N=`basename $i .c`
+	$CPP $CPPARG $i | $CINST - ${TMP}/${N}.c ${N}.atac
+	if [ $? -ne 0 -o -f core ]
+	then
+		echo "$PGM: parse failed for $i" >&2
+		rm -f core
+		exit 1
+	fi
+done
+$CC $BASE_ARG $CCARG
+RC=$?
+exit $?

@@ -1,0 +1,206 @@
+dnl Process this file with 'autoconf' to produce a 'configure' script
+dnl $Id: configure.in,v 3.19 2013/12/09 01:19:34 tom Exp $
+dnl ---------------------------------------------------------------------------
+dnl
+dnl Copyright 1995-2008,2013 by Thomas E. Dickey
+dnl
+dnl                         All Rights Reserved
+dnl
+dnl Permission to use, copy, modify, and distribute this software and its
+dnl documentation for any purpose and without fee is hereby granted,
+dnl provided that the above copyright notice appear in all copies and that
+dnl both that copyright notice and this permission notice appear in
+dnl supporting documentation, and that the name of the above listed
+dnl copyright holder(s) not be used in advertising or publicity pertaining
+dnl to distribution of the software without specific, written prior
+dnl permission.
+dnl
+dnl THE ABOVE LISTED COPYRIGHT HOLDER(S) DISCLAIM ALL WARRANTIES WITH REGARD
+dnl TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+dnl AND FITNESS, IN NO EVENT SHALL THE ABOVE LISTED COPYRIGHT HOLDER(S) BE
+dnl LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+dnl WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+dnl ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+dnl OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+dnl
+dnl ---------------------------------------------------------------------------
+AC_PREREQ(2.52.20011201)
+AC_REVISION($Revision: 3.19 $)
+AC_INIT(tools/atac)
+
+dnl Normally we'll install in /usr/local, but this will let the user override
+dnl once and not be bothered again.
+AC_PREFIX_PROGRAM(atacCC)
+AC_CONFIG_HEADER(config.h:config_h.in)
+
+CF_CHECK_CACHE
+
+CF_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+AC_PROG_YACC
+
+AC_C_CONST
+CF_XOPEN_SOURCE
+
+AC_SUBST(CFLAGS)
+AC_SUBST(CPPFLAGS)
+AC_SUBST(LDFLAGS)
+AC_SUBST(INCLUDES)
+AC_SUBST(DEFINES)
+AC_SUBST(LIBS)
+
+AC_HEADER_STDC
+AC_HEADER_TIME
+AC_CHECK_HEADERS(\
+fcntl.h \
+stdlib.h \
+stdarg.h \
+sys/time.h \
+sys/wait.h \
+term.h \
+termcap.h \
+time.h \
+unistd.h \
+varargs.h \
+)
+
+CF_DISABLE_ECHO
+
+AC_CACHE_CHECK(if you want to use ncurses,cf_cv_use_ncurses,[
+AC_ARG_WITH(ncurses,
+[  --with-ncurses          use ncurses library for highlighting],
+	[cf_cv_use_ncurses=yes],
+	[cf_cv_use_ncurses=no])])
+
+cf_save_LIBS="$LIBS"
+if test $cf_cv_use_ncurses = yes ; then
+	CF_NCURSES_LIBS
+	CF_NCURSES_CPPFLAGS
+	cf_cv_lib_termcap=ncurses
+else
+	CF_TERMCAP_LIBS
+fi
+
+CHECK_DECL_FLAG="-I$srcdir"
+CHECK_DECL_HDRS='#include <atacterm.h>'
+CF_TYPE_OUTCHAR
+
+# We only need this for 'hili'.
+TERMLIBS="$LIBS"
+AC_SUBST(TERMLIBS)
+LIBS="$cf_save_LIBS"
+
+if test $cf_cv_lib_termcap = termcap ; then
+	AC_DEFINE(M_TERMCAP)
+else
+	AC_DEFINE(M_TERMINFO)
+fi
+
+AC_ARG_ENABLE(debugging,
+[  --enable-debugging      turn on debug option],,[enableval=no])
+if test "$enableval" = no ; then
+	CF_STRIP_G_OPT(CFLAGS)
+else
+	CF_STRIP_O_OPT(CFLAGS)
+	CFLAGS="$CFLAGS -g"
+fi
+
+AC_ARG_ENABLE(warnings,
+[  --enable-warnings       turn on gcc warnings, for debugging ],[
+	CF_GCC_WARNINGS
+])
+
+AC_TYPE_SIZE_T
+AC_TYPE_SIGNAL
+
+AC_CHECK_FUNCS(\
+atexit \
+rename \
+on_exit \
+strerror \
+vfprintf \
+)
+
+###	Get the host's sizes, in bits, for cexp.y
+for td_type in char short int long
+do
+changequote({,})dnl
+td_name="`echo $td_type |tr [a-z] [A-Z]`_TYPE_SIZE"
+changequote([,])dnl
+AC_MSG_CHECKING(size of $td_type)
+td_size="ac_cv_bits_$td_type"
+AC_CACHE_VAL($td_size,[
+AC_TRY_RUN([#include <stdio.h>
+main()
+{
+	FILE	*f = fopen("conftestval", "w");
+	int	count;
+	unsigned $td_type n;
+	if (!f) exit(1);
+	for (n = 1, count = 0; n != 0; n = n+n, count++);
+	fprintf(f, "%d\n", count);
+	exit(0);
+}],	[eval 'ac_cv_bits_'$td_type'=`cat conftestval`'],
+	[eval 'ac_cv_bits_'$td_type'=unknown'],
+	[eval 'ac_cv_bits_'$td_type'=unknown'])
+])
+[eval 'td_result=$ac_cv_bits_'$td_type]
+AC_MSG_RESULT($td_result)
+if test $td_result != unknown; then
+	AC_DEFINE_UNQUOTED($td_name,$td_result)
+	test $td_type = char && AC_DEFINE_UNQUOTED(BITS_PER_UNIT,$td_result)
+	changequote({,})dnl
+	td_name="HOST_BITS_PER_`echo $td_type |tr [a-z] [A-Z]`"
+	changequote([,])dnl
+	AC_DEFINE_UNQUOTED($td_name,$td_result)
+fi
+done
+
+###	If we've got gcc, try to find its machine-name and infer the include-dirs
+if test -n "$GCC"; then
+	if ( eval "$ac_cv_prog_CC -v" 2>&1 |fgrep 'Reading specs' >conftestval )
+	then
+		changequote({,})dnl
+		td_vers=`eval $ac_cv_prog_CC --version`
+		td_temp=`sed -e s'@^[^/]*@@' conftestval`
+		td_dir1=`echo $td_temp | sed -e 's@/specs$@/include@'`
+		td_dir2=`echo $td_dir1 | sed -e 's@/lib/gcc-lib@@' -e s@/$td_vers/@/@`
+		changequote([,])dnl
+		AC_MSG_CHECKING(for gcc tool-include)
+		if test "$td_dir1" != "$td_temp"; then
+			AC_MSG_RESULT($td_dir1)
+			AC_DEFINE_UNQUOTED(TOOL_INCLUDE_DIR,"$td_dir1")
+		else
+			AC_MSG_RESULT(no)
+		fi
+		AC_MSG_CHECKING(for gcc include)
+		if test "$td_dir2" != "$td_dir1"; then
+			AC_MSG_RESULT($td_dir2)
+			AC_DEFINE_UNQUOTED(GCC_INCLUDE_DIR,"$td_dir2")
+		else
+			AC_MSG_RESULT(no)
+		fi
+	fi
+	rm -f conftestval
+fi
+
+### #define TOOL_INCLUDE_DIR "/usr/lib/gcc-lib/i486-linux/2.7.0/include"
+### #define GCC_INCLUDE_DIR "/usr/i486-linux/include"
+
+### for GNU's cpp:
+AC_DEFINE(TARGET_BELL,007)
+AC_DEFINE(TARGET_BS,010)
+AC_DEFINE(TARGET_TAB,011)
+AC_DEFINE(TARGET_NEWLINE,012)
+AC_DEFINE(TARGET_VT,013)
+AC_DEFINE(TARGET_FF,014)
+AC_DEFINE(TARGET_CR,015)
+
+###	output makefiles and config.h
+AC_OUTPUT(makefile
+	atac_cpp/makefile
+	atac_i/makefile
+	atacysis/makefile
+	tools/makefile
+	tutorial/makefile,,,sort)

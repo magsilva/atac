@@ -1,0 +1,957 @@
+2013-12-08  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atacysis/trace.c: gcc warnings
+
+	* atacysis/srcfile_name.c: use const
+
+	* atacysis/tab_disp.c, atacysis/lib.c: gcc warnings
+
+	* atacysis/gmatch.c: use const
+	this rippled through to require a third parameter (caller was temporarily
+	setting a nul).
+
+	* atac_i/deparse.c: gcc warnings
+
+	* atac_i/error.c: use const
+
+	* configure: regen
+
+	* portable.h:
+	adding CF_XOPEN_SOURCE broke the nested mess of ifdef's - hack it for now.
+
+	* aclocal.m4, configure.in: add CF_XOPEN_SOURCE
+
+	* atacysis/pro.c, atacysis/main.c, atacysis/static.c, atacysis/greedy.c, atacysis/disp.c, atacysis/summary.c, atacysis/columns.c, atacysis/eval.c:
+	gcc warnings
+
+	* atacysis/atacysis.h: use const
+
+	* atacysis/fdisp.c, atacysis/pdisp.c, atacysis/bdisp.c: gcc warnings
+
+	* atacysis/ddisp.c: use const
+
+	* atacysis/cdisp.c: gcc warnings
+
+	* atacysis/disp.h, atacysis/prev.c, atacysis/ramfile.h: use const
+
+	* atacysis/pat_match.c: gcc warnings
+
+	* atacysis/atactm.c, atacysis/vms_disp.c: use const
+
+	* atacysis/atac_to_bin.c: gcc warnings
+
+	* atacysis/tmerror.c: use const
+
+	* atacysis/highest.c: gcc warnings
+
+	* atac_i/fg_module.c: formatting
+
+	* atac_i/sym.h, atac_i/print_sym.c, atac_i/const.c, atac_i/tree.c, atac_i/scan.c, atac_i/list.c, atac_i/list.h, atac_i/error.h, atacysis/error.c:
+	use const
+
+	* atac_i/deparse.h: include-guard
+
+	* atacysis/pack.h: include portable.h to declare "byte"
+
+	* atacysis/ramfile.h, atacysis/atacysis.h, atacysis/disp.h, portable.h, tools/hili.c, atac_i/error.c, atac_i/alldu.c, atac_i/tree.c, atacysis/atac_to_bin.c, atacysis/lib.c, atac_i/Pgram.y, atac_i/dug.h, atac_i/allpaths.h, atac_i/list.h, atac_i/flowgraph.h, atac_i/error.h, atac_i/reglist.h, atac_i/table.h, atac_i/strtab.h, atac_i/upfix.h, atacysis/pack.h, atacysis/rlist.h, atac_i/tnode.h, atac_i/sym.h, atac_i/srcpos.h, atac_i/scan.h, atac_i/bitvec.h, atac_i/hook.h, atac_i/tree.h, atacysis/man.h, atac_i/deparse.h:
+	remove K&R stuff
+
+	* tools/min.c, tools/hili.c: converted to ANSI and indent'd
+
+	* tools/atac_rt.c, atacysis/lib.c: kill-Log-comment
+
+	* atacysis/error.c, atacysis/bdisp.c, atacysis/atac_to_bin.c, atacysis/prev.c, atacysis/greedy.c, atacysis/srcfile_name.c, atacysis/ddisp.c, atacysis/static.c, atacysis/tab_disp.c, atacysis/atactm.c, atacysis/dump.c, atacysis/init.c, atacysis/tmerror.c, atacysis/disp.c, atacysis/columns.c, atacysis/pro.c, atacysis/main.c, atacysis/risk.c, atacysis/pack.c, atacysis/eval.c, atacysis/trace.c, atacysis/mem.c, atacysis/rlist.c, atacysis/highest.c, atacysis/summary.c, atacysis/pat_match.c, atacysis/gmatch.c, atacysis/pdisp.c, atacysis/cdisp.c, atacysis/fdisp.c, atacysis/vector.c, atacysis/print.c, atacysis/vms_disp.c, atac_i/Pgram.y:
+	converted to ANSI and indent'd
+
+	* atac_i/const.c, atac_i/tnode.c, atac_i/fg_stmt.c: kill-Log-comment
+
+	* atac_i/print_sym.c, atac_i/type.c, atac_i/tree.c, atac_i/fg_module.c, atac_i/sym.c, atac_i/scan.c, atac_i/list.c, atac_i/error.c, atac_i/deparse.c, atac_i/srcpos.c, atac_i/dug.c, atac_i/mark.c, atac_i/filestamp.c, atac_i/alldu.c, atac_i/paths.c, atac_i/allpaths.c, atac_i/fg_expr.c, atac_i/strtab.c, atac_i/upfix.c, atac_i/parser.c, atac_i/table.c, atac_i/reglist.c:
+	converted to ANSI and indent'd
+
+	* atac_i/atac_i.c: convert to ANSI, indent'd
+
+	* VERSION: RCS_BASE
+
+	* tools/loguse: make the MAILTO go to the local machine
+
+	* configure: regen
+
+	* aclocal.m4: use CF_PROG_CC
+	remove unused macros
+
+	* configure.in: use CF_PROG_CC
+	drop long-obsolete check for td_config
+
+	* atac_i/makefile.in, atacysis/makefile.in, atac_cpp/makefile.in, tools/makefile.in:
+	updated no-echo markers
+
+	* aclocal.m4: resync with my-autoconf
+
+	* configure.in: bump prerequisites
+
+	* makefile.in: use "mkdir -p" rather than "mkdirs.sh" script
+
+2013-10-25  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* config.sub: 2013-10-01
+
+2013-09-07  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* config.guess: 2013-06-10
+
+2008-12-16  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* configure: regen'd
+
+	* tools/atac_rt.c: convert to ANSI, indent'd
+
+	* atacysis/lib.c: converted to ANSI, indent'd
+
+	* atac_i/scan.c: convert to ANSI, indent'd
+
+	* atac_i/sym.c:
+	convert to ANSI, indent'd.  Use childX() functions rather than CHILDx()
+	macros to quiet gcc 4.3.2 warnings about reuse of macro_n in parameters.
+
+	* atac_i/const.c:
+	converted to ANSI, indent'd.  Use childX() functions rather than CHILDx()
+	macros to quiet gcc 4.3.2 warnings.
+
+	* atac_i/fg_stmt.c:
+	convert to ANSI, indent'd.  Use childX() functions rather than CHILDx()
+	macros to eliminate gcc 4.3.2 warnings about reuse of macro_n variable
+	in parameter lists.
+
+	* atac_i/tnode.c: convert to ANSI, indent'd
+
+	* configure.in:
+	gcc 4.x treats integer overflow differently; change the check for number
+	of bits to unsigned types to avoid infinite loop.
+
+	* aclocal.m4: resync with my-autoconf
+
+2008-08-30  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* config.guess: 2008-04-14
+
+	* config.sub: 2008-06-16
+
+2007-03-25  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* mkdirs.sh: resync with my-autoconf
+
+2007-02-11  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* changes/atac_20070211.txt: RCS_BASE
+
+	* configure: regen'd
+
+	* aclocal.m4: resync with my-autoconf
+
+2006-12-22  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* config.guess: 2006-12-22
+
+2006-12-08  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* config.sub: 2006-12-03
+
+2005-08-14  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* changes/atac_20050814.txt: RCS_BASE
+
+	* tools/atacCC:
+	make this work with gcc 2.95.3 (ignore __extension__ and __restrict keywords)
+
+	* tools/atacCC:
+	improve computation of $GCC_BASE and $GCC_VERS using gcc options.
+	use $TMPDIR to allow overriding temp-file location.
+
+	* atac_cpp/cccp.c: fix some gcc warnings (missing initializers)
+
+	* tools/atacLD:
+	use $TMPDIR to allow temporary directory to be overridden.
+
+	* atacysis/error.c: gcc warnings
+
+	* tools/atac_rt.c: gcc warning
+
+	* atacysis/bdisp.c: gcc warnings
+
+	* portable.h: include string.h and ctype.h
+	turn on prototypes in cccp
+
+	* atacysis/atac_to_bin.c, atacysis/prev.c, atacysis/greedy.c, atacysis/srcfile_name.c, atacysis/ddisp.c, atacysis/static.c:
+	gcc warnings
+
+	* atac_i/list.c: gcc warning (implicit type)
+
+	* atac_i/error.c, atac_i/deparse.c, atac_i/srcpos.c, atac_i/dug.c:
+	gcc warnings
+
+2005-08-13  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/fg_module.c, atac_i/mark.c: gcc warnings
+
+	* atac_cpp/cccp.c:
+	fixes prompted by bug report (reporter missed the strerror fix):
+	Date: Wed, 27 Jul 2005 18:57:52 +0100
+	From: Ralph Corderoy <ralph@inputplus.co.uk>
+	Subject: Re: atac Doesn't Compile These Days.
+	To: Thomas Dickey <dickey@his.com>
+
+
+	Hi Thomas,
+
+	> thanks.  I hadn't done much with atac recently, since Linux's header
+	> files are widely infested with the compound statements, etc.
+
+	A closer look showed atac was already autoconf'd to cope with stdarg.h
+	or varargs.h but it looks like the test is wrong.  It checks for
+	HAVE_VPRINTF but autoconf has been told to check for vfprintf() which is
+	what the code actually calls..
+
+	* portable.h: include stdlib.h to get exit() prototype
+
+	* atac_i/atac_i.c: portable.h now always includes stdio.h
+
+	* portable.h: quieted some of the -Wundef warnings
+
+	* configure: regenerated after updating aclocal.m4
+
+	* aclocal.m4: resync with my-autoconf
+
+	* configure.in: require current 2.13 patchlevel
+
+2005-06-25  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* config.sub: resync: 2005/6/2
+
+	* config.guess: resync: 2005/5/27
+
+2003-11-29  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* install-sh: RCS_BASE
+
+	* install.sh: resync with my-autoconf
+
+2002-06-29  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* mkdirs.sh: resync with my-autoconf
+
+1998-09-19  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* changes/atac_19980919.txt: RCS_BASE
+
+	* atac_i/srcpos.c:
+	spell out line and col words for clarity in the source-position
+
+	* atac_i/error.c:
+	change error-message format to put filename, line, col before the message
+	to make it simpler to parse with vile's error-finder
+
+	* atac_i/deparse.c: add a cast for 2nd param of aTaC function
+
+	* atac_cpp/cexp.y:
+	fix some implicit-function warnings, and a missing-parenthesis warning
+
+	* atac_i/dug.c:
+	fix some gcc warnings (make the ZIDENT const, prototype aTaC, and bracket
+	empty-Zpath data)
+
+	* atacysis/tab_disp.c: int/size_t compiler warning
+
+1998-08-23  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* tutorial/makefile.in: whitespace
+
+	* configure: 980823
+
+	* changes/atac_19980823.txt: RCS_BASE
+
+	* tools/atac_rt.c:
+	moved timestamp code into 'write_timestamp()', documented Y2K impact (none).
+
+	* aclocal.m4: don't need CF_FUNC_TGETENT anyway
+
+	* configure.in: don't need CF_FUNC_TGETENT here
+
+	* aclocal.m4:
+	modified the tgetent test to eliminate one instance of duplicate library
+
+	* configure.in:
+	moved the tgetent test up so we can turn off those libraries for the general
+	case of $LIBS
+
+	* tools/hili.c:
+	fix gcc warnings for both termcap and terminfo configurations.
+
+	* atacysis/makefile.in, atac_i/makefile.in:
+	suppress echo of link-command
+
+	* atac_cpp/makefile.in: suppress echo of link-command.
+
+	* tools/makefile.in:
+	remove trial/error build of hili (done in configure-script)
+
+	* tools/min.c:
+	fix most gcc warnings (except some cost stuff that will take study)
+
+	* configure.in: omit redundant output of config_h
+
+	* aclocal.m4: use CF_TERMCAP_LIBS to find the termcap libraries
+
+	* configure.in:
+	mods to get rid of trial/error linking of hili against termcap or terminfo
+
+	* atacysis/makefile.in, atac_cpp/makefile.in, tools/makefile.in, tutorial/makefile.in, atac_i/makefile.in:
+	mods to support configure --srcdir
+
+	* makefile.in:
+	don't pass CFLAGS to lower-levels, since autoconf does that properly.
+
+	* configure.in: add --disable-echo
+
+	* aclocal.m4: add logic to support --disable-echo
+
+	* README-TOO: I moved patches to changes subdirectory
+
+	* configure.in: add --with-ncurses option
+
+	* aclocal.m4: updated with ncurses macros
+
+1998-08-22  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* configure.in: CF_CURSES_TERMCAP needs preset variables
+
+	* atacterm.h: RCS_BASE
+
+	* aclocal.m4: resync with my macros, including termcap/curses headers
+
+1998-07-25  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* config.guess: 980823
+
+1998-02-24  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* config.sub: 980823
+
+1997-12-11  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* changes/atac_19971211.txt: RCS_BASE
+
+	* atac_i/scan.c:
+	make yylex() return a negative value on end-of-file, rather than bogus
+	ENDFILE symbol.
+
+	* atac_i/Pgram.y: remove unused/misleading symbol ENDFILE.
+
+1997-12-10  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/dug.c: corrected pointer types to compile cleanly.
+
+	* makefile.in:
+	turn off suffixes (so GNU make doesn't convert install.sh to install).
+	modify distclean rule to preserve config.guess and config.sub
+
+	* tools/atac_rt.c:
+	simplified/corrected ifdef's for atexit() vs on_exit()
+
+1997-12-09  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* configure: 971211
+
+	* config.guess, config.sub: RCS_BASE
+
+	* aclocal.m4:
+	add CF_CHECK_CACHE, CF_FUNC_TGETENT, CF_OUTCHAR, CF_SED_CONFIG_H
+
+	* atac_i/table.h: define/use TABLE_DATATYPE
+
+	* atac_i/error.c: ifdef'd to build with K&R compiler.
+
+	* config_h.in:
+	moved TARGET_xxx to configure.in, because td_config doesn't grok them.
+
+	* tools/hili.c: prototyped outchar()
+
+	* atacysis/static.c: simplified ifdef
+
+	* portable.h: simplified ifdefs for atexit() and on_exit()
+
+	* atac_i/makefile.in: use $(YACC) rather than 'yacc'
+
+	* configure.in:
+	use CF_CHECK_CACHE, CF_FUNC_TGETENT, CF_TYPE_OUTCHAR, CF_SED_CONFIG_H
+	to simplify/modularize this.  also, moved some fixed #define's here,
+	since td_config doesn't parse them properly.
+
+	* atac_i/list.h: use P_ macro to allow K&R build
+
+1997-12-08  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/mark.c: cast dug->fname to cover up special marker() case
+
+	* atac_i/fg_module.c: moved externs to atac_i.h
+
+	* atac_i/atac_i.h: RCS_BASE
+
+	* atac_i/atac_i.c: use TNODE* instead of void*
+
+	* atac_i/filestamp.c: move 'filestamp()' prototype to srcpos.h
+
+	* atac_i/srcpos.h: add 'filestamp()' prototype
+
+	* atac_i/alldu.c: repair int/SYM* cast with macro ID_SYM.
+	correct int/ulong type of prev_adu_count.
+
+	* atac_i/paths.c:
+	repair int/SYM* casts with ID_SYM/VAR_ID macros, use SYM* where applicable
+
+	* atac_i/allpaths.c, atac_i/scan.c: int/size_t fixes.
+
+	* atac_i/fg_expr.c: moved externs to header file
+
+	* atac_i/fg_stmt.c: moved externs to header-file
+
+	* atac_i/sym.h: moved extern-declaration of decis_sym here.
+
+	* atac_i/strtab.c: int/size_t fix
+
+	* atac_i/upfix.c, atac_i/upfix.h: int/size_t fixes
+
+	* atac_i/dug.h: add macros ID_SYM and VAR_ID
+
+	* atac_i/deparse.c: int/size_t fix.
+	correct char* cast of n->sym.hook.type
+
+	* atac_i/parser.c: use TNODE* instead of void*
+
+	* atac_i/Pgram.y: move 'parse()' prototype to header file
+
+	* atac_i/tnode.h: add prototypes for parse(), deparse()
+
+1997-11-03  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* makefile.in: add EXTRA_CFLAGS
+
+	* configure.in:
+	use macros CF_GCC_WARNINGS, CF_STRIP_G_OPT, CF_STRIP_O_OPT and CF_CC_ANSI_CHECK
+
+	* atac_i/makefile.in, atacysis/makefile.in, tools/makefile.in, atac_cpp/makefile.in, tutorial/makefile.in:
+	add EXTRA_CFLAGS
+
+	* aclocal.m4: RCS_BASE
+
+	* atacysis/static.c: quick hack to prototype the qsort compare-function
+
+	* atac_i/error.c:
+	change type of internal_error() to int, since it is used in expression.
+
+	* portable.h:
+	quick hack to use autoconf symbol for saying we do prototypes
+
+	* atac_i/Pgram.y:
+	move <stdio.h> down below the include for config.h so we have const
+	consistently
+
+	* atac_i/error.h:
+	change type of internal_error to 'int' since it is used in expression.
+
+1997-11-02  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/table.c:
+	correct some places in the last changes where we need a pointer to int.
+
+1997-11-01  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/scan.c: add __inline, since gcc uses it...
+
+	* configure.in:
+	correct conflict between --enable-warnings and --enable-debug
+
+	* tools/min.c: gcc warnings (size_t/int/long/unsigned long)
+
+	* tools/atac_rt.c: Linux's atexit() expects void function.
+
+1997-07-17  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/table.c: cast 'intcmp' function to 'CMP'
+
+	* configure.in: check existence of 'rename()'
+
+	* tools/atac_rt.c: fix missing return values
+
+	* atacysis/atactm.c: ifdef'd "rename()" fallback for configure-script
+
+	* atac_i/alldu.c: missed a NULL used as int
+
+	* atac_i/paths.c: missed a NULL used as int.
+
+1997-05-11  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* changes/atac_19970511.txt: RCS_BASE
+
+	* atac_i/paths.c: fix most gcc warnings
+
+	* atac_i/error.c: include tnode.h
+
+	* atac_i/srcpos.c: remove redundant prototypes
+
+	* atac_i/deparse.c: corrent sprintf-format
+
+	* atac_i/sym.h: correct sign in QUAL_OVERFLOW
+
+	* portable.h: correct sign in LURSHIFT
+
+	* atac_i/error.h: use gcc 'noreturn' attribute
+
+	* atac_i/parser.c, atac_i/atac_i.c: add includes to get prototypes
+
+	* atac_i/tnode.h: add prototypes for sym.c, and include srcpos.h
+
+	* atac_i/sym.c: move prototypes to tnode.h
+	rename sym() to do_sym() to avoid variable-shadowing warnings
+
+	* atac_i/dug.h: add prototypes for mark.c, paths.c, alldu.c
+
+	* atac_i/allpaths.c: split-out allpaths.h, fix compiler warnings.
+
+	* atac_i/fg_module.c: include allpaths.h
+
+	* atac_i/allpaths.h: RCS_BASE
+
+	* atac_i/alldu.c:
+	remove redundant prototypes, fix compiler warnings for list.c interface
+
+	* atac_i/mark.c: correct gcc warnings
+
+	* atac_i/upfix.c, atac_i/upfix.h: use size_t
+
+	* atac_i/sym.c: include reglist.h
+
+	* atac_i/sym.h: add prototypes for print_sym.c
+
+	* atac_i/reglist.c: split-out reglist.h
+
+	* atac_i/reglist.h: RCS_BASE
+
+	* atac_i/print_sym.c:
+	correct gcc warnings, including an erroneous call on internal_error()
+
+	* atac_i/tnode.h: add prototypes for type.c
+
+	* atac_i/type.c: moved prototypes to tnode.h
+
+	* atac_i/strtab.c: use ID_TYPE to correct prototype for strtab_insert()
+
+	* atac_i/scan.c: use ID_TYPE to fix mismatches
+
+	* atac_i/strtab.h:
+	define ID_TYPE, to correct prototype for strtab_insert()
+
+	* atac_i/list.h: add LIST_PREV macro
+
+	* atac_i/dug.h: correct prototypes for du_use, du_use_type
+
+	* atac_i/dug.c: corrected prototypes for du_use, du_use_type
+
+	* atac_i/table.c: rename DATA to TABLE_DATATYPE
+
+	* atac_i/list.c: rename DATA to LIST_DATATYPE
+
+	* atac_i/table.h: rename DATA to TABLE_DATATYPE
+
+	* atac_i/list.h: rename DATA to LIST_DATATYPE
+
+	* atac_i/tnode.h: include sym.h to declare CONST_VALUE
+
+	* atac_i/tree.c: moved prototypes to tnode.h
+
+	* atac_i/fg_module.c: split-out flowgraph.h
+	correct type of global_defs to 'LIST*'
+
+	* atac_i/fg_stmt.c: split-out flowgraph.h, compile-clean
+
+	* atac_i/flowgraph.h: RCS_BASE
+
+	* atac_i/fg_expr.c: split-out flowgraph.h, compile-clean
+
+	* atac_i/fg_expr.c:
+	make this compile clean against dug.h with all prototypes from dug.c
+
+	* atac_i/dug.h: move prototypes for dug.c here (first cut)
+
+	* atac_i/dug.c:
+	second cut of prototyping, moved prototypes to dug.h, cleanup against fg_expr.c
+
+	* atac_i/tnode.h: use prototypes for srcpos.c
+
+	* atac_i/list.h: rename LINK to LIST, for consistency
+	add macros that supply casts where we'll need them
+
+	* atac_i/dug.h: include list.h, to define LIST-type rather than dummy
+
+	* atac_i/list.c: rename type from LINK to LIST, for consistency
+
+	* atac_i/list.h: RCS_BASE
+
+	* atac_i/list.c: split-out list.h
+
+1997-05-10  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/scan.c: absorb srcpos.h into error.h
+	correct type of strtab variable.
+
+	* atac_i/strtab.c: split-out strtab.h
+
+	* atac_i/strtab.h: RCS_BASE
+
+	* atac_i/sym.h: add prototypes for const.c, which use this module
+
+	* atac_i/dug.c, atac_i/deparse.c, atac_i/allpaths.c, atac_i/tree.c, atac_i/tnode.c, atac_i/srcpos.c, atac_i/print_sym.c, atac_i/paths.c, atac_i/mark.c:
+	absorb srcpos.h into error.h
+
+	* atac_i/makefile.in:
+	first cut of restructuring (must update dependencies)
+
+	* atac_i/fg_module.c, atac_i/fg_expr.c, atac_i/type.c, atac_i/sym.c, atac_i/fg_stmt.c, atac_i/const.c:
+	absorb srcpos.h into error.h
+
+	* atac_i/table.h: strcmp matches CMP better if I use const
+
+	* atac_i/Pgram.y: absorb srcpos.h into error.h
+
+	* atac_i/error.c: rewrote using <stdarg.h> and vfprintf.
+
+	* atac_i/error.h, atac_i/upfix.h: RCS_BASE
+
+	* atac_i/upfix.c: split-out upfix.h
+
+	* atac_i/table.h: RCS_BASE
+
+	* atac_i/table.c: split-out table.h
+
+	* atac_i/scan.h: add prototypes for scan.c
+
+	* atac_i/tnode.h: prototype for print_tree
+
+1997-04-25  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_cpp/makefile.in, atac_i/makefile.in, atacysis/makefile.in, tools/makefile.in, tutorial/makefile.in:
+	CC-substitution
+
+	* atac_i/dug.c: fix for SunOS K&R, which declares "int free()"
+	casts to appease compiler
+
+1996-12-01  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* tools/hili.c, tools/min.c, tools/atac_rt.c:
+	gcc warnings (missing prototypes)
+
+	* configure: RCS_BASE
+
+	* configure.in: sys/wait.h, AC_TYPE_SIGNAL
+
+	* tools/makefile.in: mods for autoconf
+
+	* makefile.in: missed a Makefile/makefile conversion
+
+1996-11-12  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* changes/atac_19961112.txt: RCS_BASE
+
+	* atacysis/tab_disp.c: ifdef'd unused code
+
+	* atacysis/dump.c, atacysis/init.c, atacysis/tmerror.c:
+	include <config.h> to declare 'const'
+
+	* atacysis/man.h: change ident to 'const' to quiet gcc
+
+	* atac_i/Pgram.y:
+	undo redefinition of literal-tokens (e.g., ';' vs TOK_SEMICOLON).
+	change def of AUTO to avoid conflict with bison's ENDFILE.
+	add forward-ref prototypes.
+
+	* atac_i/list.c, atac_i/const.c, atac_i/error.c, atac_i/strtab.c, atac_i/deparse.c, atac_i/mark.c, atac_i/table.c:
+	change ident to 'const' to quiet gcc
+	add forward-ref prototypes
+
+	* atac_i/filestamp.c: change ident to 'const' to quiet gcc
+	add forward-ref prototype
+
+	* atac_i/atac_i.c, atac_i/type.c, atac_i/reglist.c, atac_i/tnode.c, atac_i/tree.c, atac_i/upfix.c:
+	change ident to 'const' to quiet gcc
+	add forward-ref prototypes
+
+	* atac_i/dug.h: change ident to 'const' to quiet gcc
+
+	* atac_i/tnode.h: change ident to 'const' to quiet gcc
+	prototyped functions for tree.c, tnode.c
+
+	* atac_i/scan.h, atac_i/srcpos.h, atac_i/sym.h, atac_i/bitvec.h:
+	change ident to 'const' to quiet gcc
+
+	* atac_i/hook.h: change ident to 'const' to quiet gcc.
+
+	* atac_i/makefile.in: convert to autoconf-template
+
+	* atac_i/makefile.in: converted to autoconf-template
+
+	* atac_i/sym.c, atac_i/dug.c, atac_i/fg_expr.c, atac_i/fg_module.c, atac_i/fg_stmt.c:
+	change ident to 'const' to quiet gcc
+	add forward-ref prototypes
+
+	* atac_i/scan.c: add forward-ref prototypes
+	remove bizarre 'NULL' statements (a plain ';' works!)
+
+	* atac_i/alldu.c, atac_i/allpaths.c, atac_i/paths.c, atac_i/srcpos.c, atac_i/print_sym.c:
+	change ident to 'const' to quiet gcc
+	add forward-ref prototypes
+
+	* atac_i/tree.h: change ident to 'const' to quiet gcc
+
+1996-11-11  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* makefile.in: show cd/make (for tracing log with vile)
+	lowercase makefiles throughout
+
+	* atacysis/makefile.in, tutorial/makefile.in, atac_cpp/makefile.in:
+	RCS_BASE
+
+	* configure.in: generate all subdir-makefiles
+	add test for yacc
+
+1996-11-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* changes/RCS, tutorial/RCS, tools/RCS, atacysis/RCS, atac_i/RCS, atac_cpp/RCS, RCS:
+	PERMIT FILE
+
+1996-01-11  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* tools/makefile.in: FROM_KEYS
+
+	* atac_i/Pgram.y: add _something_ to handle ASM case
+
+	* atac_cpp/cexp.y: fix for SunOS 4.x with 'cc' (no 'alloca()')
+
+	* atacysis/srcfile_name.c: moved include
+
+	* tools/Makefile: separate LINK from CC, to run Purify
+
+1995-12-31  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* changes/atac_19951230.txt: RCS_BASE
+
+1995-12-30  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* tools/predefs.list: add gnuc_minor
+
+	* tools/atacCC: mods to support Linux aout vs ELF
+
+1995-12-29  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac.lsm, makefile.in: RCS_BASE
+
+	* atac_cpp/cccp.c: use gcc 2.7.0's version
+
+	* configure.in: RCS_BASE
+
+	* Version: document _this_ version
+
+	* atac_i/scan.c: adjust headers, prototyped for autoconfig
+	add keywords to work with gcc 2.7.0 (including logic to skip over ASM)
+
+	* atacysis/Makefile: mods for autoconfig
+
+	* atacysis/disp.c: adjust headers, prototyped for autoconfig
+	correct sign-extension bug (computing centered title that may be wider than
+	the maximum width).
+
+	* atacysis/atac_to_bin.c: adjust headers, prototyped for autoconfig
+
+	* atacysis/atactm.c: adjust headers, prototyped for autoconfig
+	correct gcc warnings (shadowed variables).
+
+	* atacysis/columns.c: adjust headers, prototyped for autoconfig
+	correct gcc warnings (shadowed variables: columns, lines)
+
+	* atacysis/bdisp.c: adjust headers, prototyped for auto-config
+
+	* atacysis/eval.c, atacysis/greedy.c, atacysis/highest.c, atacysis/mem.c, atacysis/pack.c, atacysis/risk.c, atacysis/rlist.c, atacysis/summary.c, atacysis/trace.c:
+	adjust headers, prototyped for autoconfig
+
+	* atacysis/lib.c: adjust headers, prototyped for autoconfig
+	correct sign-extension in string-copy.
+
+	* atacysis/main.c: adjust headers, prototyped for autoconfig
+	corrected gcc warnings (wrong # of params for print_mod)
+
+	* atacysis/prev.c, atacysis/pro.c, atacysis/static.c:
+	adjust headers, prototyped for autoconfig
+	fix compiler warnings (casts).
+
+	* atac_cpp/Makefile: mods for autoconfig
+
+	* config_h.in: RCS_BASE
+
+1995-12-28  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* README-TOO: RCS_BASE
+
+	* atacysis/tab_disp.c: adjust headers, prototyped for autoconfig
+
+	* version.h: make 'version_h' const to avoid unused-variable warnings
+
+	* atacmin.1: corrected (missing comment-marker) for log-comments
+
+	* atacLD.1: corrected (missing comment-marker) for log comments
+
+1995-12-27  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* tools/atac: add $ATAC_PAGER environment variable
+
+	* tools/atac_rt.c, tools/hili.c: fix gcc warnings (missing prototypes)
+
+	* atac_i/paths.c, atac_i/allpaths.c, atac_i/alldu.c, atac_i/srcpos.c, atac_i/dug.c, atac_i/fg_expr.c, atac_i/fg_stmt.c, atac_i/dug.h:
+	don't use NULL for int value!
+
+	* atac_i/sym.c: handle SCB_INLINE, CLASSTYPE_INLINE
+
+	* atac_i/tree.h: declare CLASSTYPE_INLINE
+
+	* tools/vile-pager, atacysis/rlist.h, atacysis/pack.h: RCS_BASE
+
+	* atacysis/ramfile.h, atacysis/pat_match.c, atacysis/gmatch.c, atacysis/atacysis.h, atacysis/init.c:
+	adjust headers, prototyped for autoconfig
+
+	* atacysis/dump.c: adjust headers, prototyped for autoconfig
+	correct gcc warnings (casts)
+
+	* atacysis/pdisp.c, atacysis/cdisp.c, atacysis/ddisp.c, atacysis/fdisp.c, atacysis/vector.c:
+	adjust headers, prototyped for autoconfig
+
+	* atacysis/print.c: adjust headers, prototyped for autoconfig
+	correct gcc warnings (long vs int).
+
+	* atacysis/error.c, atacysis/srcfile_name.c, atacysis/tmerror.c:
+	adjust headers, prototyped for autoconfig
+
+	* portable.h: define P_ macro
+
+	* atacysis/disp.h: adjust headers, prototyped for autoconfig
+
+1995-12-26  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/Pgram.y:
+	handle INLINE, ASM states.  Also declare ATTRIBUTE state.
+
+1995-12-12  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/deparse.h: handle CLASSTYPE_INLINE
+
+	* atac_i/sym.h: add SCB_INLINE
+
+	* atac_i/fg_module.c: handle CLASSTYPE_INLINE
+
+	* atac_i/print_sym.c: handle SCB_INLINE
+
+1995-06-15  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_cpp/obstack.h, atac_cpp/obstack.c, atac_cpp/alloca.c:
+	use gcc 2.7.0's version
+
+	* atac_cpp/pcp.h: RCS_BASE
+
+	* atac_cpp/cexp.y: use gcc 2.7.0's version
+
+1994-09-26  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* Version: RCS_BASE
+
+1994-09-13  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* install.sh: RCS_BASE
+
+1994-08-08  saul
+
+	* atacysis/dump.c, portable.h, tools/atacCC: FROM_KEYS
+
+1994-08-03  saul
+
+	* atacysis/trace.c, atacysis/columns.c, tools/predefs.list, atac_cpp/cccp.c:
+	FROM_KEYS
+
+1994-07-11  saul
+
+	* tools/hili.c: FROM_KEYS
+
+1994-07-05  saul
+
+	* tools/atac_rt.c: FROM_KEYS
+
+1994-06-01  saul
+
+	* atacysis/summary.c, atac_i/Pgram.y, atac_i/sym.c, atac_i/tree.h, atac_i/deparse.h:
+	FROM_KEYS
+
+1994-05-21  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* mkdirs.sh: RCS_BASE
+
+1994-05-02  saul
+
+	* atacysis/gmatch.c: FROM_KEYS
+
+1994-04-21  saul
+
+	* tools/loguse, tools/atacmin, tools/atacLD, tools/atac: FROM_KEYS
+
+1994-04-18  saul
+
+	* atac-tutorial.ps: FROM_KEYS
+
+1994-04-05  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* tutorial/wc.c, tutorial/input1, tutorial/input2, tutorial/input3, tutorial/main.c:
+	RCS_BASE
+
+1994-04-05  saul
+
+	* atac_i/paths.c, README, atactm.1, atacmin.1, ataclib.1, atacLD.1, atacCC.1, atac.1, Makefile, atacysis/Makefile:
+	FROM_KEYS
+
+1994-04-04  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* atac_i/dug.c: New file.
+
+1994-04-04  jrh
+
+	* tools/Makefile, atac_i/descrip.mms: FROM_KEYS
+
+1994-04-04  saul
+
+	* tools/min.c: FROM_KEYS
+
+1994-04-04  Thomas E. Dickey  <tom@invisible-island.net>
+
+	* tutorial/Makefile: RCS_BASE
+
+1994-04-04  saul
+
+	* atacysis/vms_disp.c, atacysis/main.c, atacysis/atactm.c, atacysis/atac_to_bin.c, atacysis/rlist.c, atacysis/disp.c, atac_i/atac_i.c, atac_i/parser.c:
+	FROM_KEYS
+
+1994-04-04  jrh
+
+	* atacysis/descrip.mms, atacysis/vector.c, atacysis/tmerror.c, atacysis/tab_disp.c, atacysis/static.c, atacysis/srcfile_name.c, atacysis/risk.c, atacysis/ramfile.h, atacysis/pro.c, atacysis/print.c, atacysis/prev.c, atacysis/pdisp.c, atacysis/pat_match.c, atacysis/pack.c, atacysis/mem.c, atacysis/man.h, atacysis/lib.c, atacysis/init.c, atacysis/highest.c, atacysis/greedy.c, atacysis/fdisp.c, atacysis/eval.c, atacysis/error.c, atacysis/disp.h, atacysis/ddisp.c, atacysis/cdisp.c, atacysis/bdisp.c, atacysis/atacysis.h, atac_cpp/descrip.mms, atac_cpp/Makefile, atac_cpp/vms_lbr.c, atac_cpp/version.c, atac_cpp/sio.c, atac_cpp/mvs_libget.c, atac_cpp/cexp.y, atac_cpp/alloca.c, atac_i/upfix.c, atac_i/type.c, atac_i/tree.c, atac_i/tnode.h, atac_i/tnode.c, atac_i/table.c, atac_i/sym.h, atac_i/strtab.c, atac_i/srcpos.h, atac_i/srcpos.c, atac_i/scan.h, atac_i/scan.c, atac_i/reglist.c, atac_i/print_sym.c, atac_i/mark.c, atac_i/list.c, atac_i/hook.h, atac_i/filestamp.c, atac_i/fg_stmt.c, atac_i/fg_module.c, atac_i/fg_expr.c, atac_i/error.c, atac_i/dug.h, atac_i/deparse.c, atac_i/const.c, atac_i/bitvec.h, atac_i/allpaths.c, atac_i/alldu.c, atac_i/Makefile, atac_i/makefile.in, version.h:
+	FROM_KEYS
+
+1993-08-04  ewk
+
+	* atac_cpp/obstack.c: FROM_KEYS
+
+1992-11-06  saul
+
+	* atac_cpp/tm.h, atac_cpp/obstack.h, atac_cpp/config.h: FROM_KEYS
+
